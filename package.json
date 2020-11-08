@@ -1,6 +1,6 @@
 {
   "name": "json-schema-spell-checker",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Check the spelling of your JSON Schema (including OpenAPI!) documents",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "lint-fix": "eslint --fix *.js"
   },
   "bin": {
-      "json-schema-spell-checker": "bin.js"
+    "json-schema-spell-checker": "bin.js"
   },
   "keywords": [
     "openapi",
