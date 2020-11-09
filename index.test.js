@@ -20,13 +20,13 @@ test("checker run one", async () => {
   expect(actual).toEqual([
     {
       errors: [{ index: 0, word: "Speling" }],
-      path: "$[0].title",
+      path: "$[0]['title']",
       value: "Speling mistake here",
       plain: "Speling mistake here"
     },
     {
       errors: [{ index: 4, word: "ther" }],
-      path: "$[1].nested.title",
+      path: "$[1]['nested']['title']",
       value: "But ther is one in nested",
       plain: "But ther is one in nested"
     }

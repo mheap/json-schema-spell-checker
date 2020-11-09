@@ -1,4 +1,4 @@
-var jp = require("jsonpath");
+var { JSONPath } = require("jsonpath-plus");
 
 /**
  * Extracts all titles and descriptions from a specification
@@ -8,15 +8,17 @@ const extract = (document, fields = []) => {
   if (typeof fields == "string") {
     path = fields;
   } else {
-    fields = fields.map(f => `'${f}'`);
     path = `$..[${fields.join(",")}]`;
   }
 
-  const nodes = jp.nodes(document, path);
-  return nodes.map(n => {
-    n.path = jp.stringify(n.path);
-    return n;
-  });
+  return JSONPath({ path, json: document, resultType: "all" }).map(
+    ({ path, value }) => {
+      return {
+        path,
+        value
+      };
+    }
+  );
 };
 
 module.exports = extract;
