@@ -21,7 +21,7 @@ json-schema-spell-checker -f 'description,title' /path/to/openapi.json
 Alternatively, you can specify a JSONPath expression yourself
 
 ```bash
-json-schema-spell-checker -j '$..["description","title"]' /path/to/openapi.json
+json-schema-spell-checker -j "$..[description,title]" /path/to/openapi.json
 ```
 
 If you have words that aren't a spelling mistake but aren't in the dictionary, add them to a `.spelling` file (one word per line) in the current folder. Alternatively, you can provide a path with `-s`
@@ -29,4 +29,3 @@ If you have words that aren't a spelling mistake but aren't in the dictionary, a
 ```bash
 json-schema-spell-checker -s /path/to/.spelling -f 'description,title' /path/to/openapi.json
 ```
-
