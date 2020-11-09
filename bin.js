@@ -13,10 +13,7 @@ const spellConfig = require("markdown-spellcheck/es5/spell-config").default;
 const spellcheck = require("markdown-spellcheck").default;
 
 function loader(filename) {
-  const suffix = filename
-    .split(".")
-    .pop()
-    .toLowerCase();
+  const suffix = filename.split(".").pop().toLowerCase();
   // If it ends in .yml
   if (["yml", "yaml"].indexOf(suffix) !== -1) {
     return YAML.load(filename);
@@ -67,15 +64,15 @@ function loader(filename) {
     ignoreNumbers: program.ignoreNumbers,
     dictionary: {
       language: language,
-      file: program.dictionary
-    }
+      file: program.dictionary,
+    },
   };
 
   // Add all spelling exceptions based on .spelling in the current directory
   // or the file provided
   let spellingFile = program.spelling || "./.spelling";
-  await new Promise(resolve => spellConfig.initialise(spellingFile, resolve));
-  spellConfig.getGlobalWords().forEach(word => {
+  await new Promise((resolve) => spellConfig.initialise(spellingFile, resolve));
+  spellConfig.getGlobalWords().forEach((word) => {
     spellcheck.spellcheck.addWord(word);
   });
 
