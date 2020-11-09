@@ -15,7 +15,7 @@ const extract = (document, fields = []) => {
     ({ path, value }) => {
       return {
         path,
-        value
+        value,
       };
     }
   );
