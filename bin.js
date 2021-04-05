@@ -45,32 +45,38 @@ function loader(filename) {
       "-f, --fields [fields]",
       "specify a comma separated list of field names to match"
     )
-    .usage("[options] source-file")
+    .arguments("<source-file>")
     .parse(process.argv);
 
+  if (program.args.length < 1) {
+    return program.help();
+  }
+
+  const programOpts = program.opts();
+
   let language;
-  if (program.enUs) {
+  if (programOpts.enUs) {
     language = "en-us";
-  } else if (program.enGb) {
+  } else if (programOpts.enGb) {
     language = "en-gb";
-  } else if (program.enAu) {
+  } else if (programOpts.enAu) {
     language = "en-au";
-  } else if (program.esEs) {
+  } else if (programOpts.esEs) {
     language = "es-es";
   }
 
   const options = {
-    ignoreAcronyms: program.ignoreAcronyms,
-    ignoreNumbers: program.ignoreNumbers,
+    ignoreAcronyms: programOpts.ignoreAcronyms,
+    ignoreNumbers: programOpts.ignoreNumbers,
     dictionary: {
       language: language,
-      file: program.dictionary,
+      file: programOpts.dictionary,
     },
   };
 
   // Add all spelling exceptions based on .spelling in the current directory
   // or the file provided
-  let spellingFile = program.spelling || "./.spelling";
+  let spellingFile = programOpts.spelling || "./.spelling";
   await new Promise((resolve) => spellConfig.initialise(spellingFile, resolve));
   spellConfig.getGlobalWords().forEach((word) => {
     spellcheck.spellcheck.addWord(word);
@@ -79,10 +85,10 @@ function loader(filename) {
   const i = loader(program.args[0]);
 
   let jsonPath = "";
-  if (program.jsonPath) {
-    jsonPath = program.jsonPath;
+  if (programOpts.jsonPath) {
+    jsonPath = programOpts.jsonPath;
   } else {
-    jsonPath = program.fields.split(",");
+    jsonPath = programOpts.fields.split(",");
   }
 
   const errors = await checker(i, jsonPath, options);
