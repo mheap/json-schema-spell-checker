@@ -1,6 +1,6 @@
 {
   "name": "json-schema-spell-checker",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Check the spelling of your JSON Schema (including OpenAPI!) documents",
   "main": "index.js",
   "scripts": {
