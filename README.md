@@ -29,3 +29,16 @@ If you have words that aren't a spelling mistake but aren't in the dictionary, a
 ```bash
 json-schema-spell-checker -s /path/to/.spelling -f 'description,title' /path/to/openapi.json
 ```
+
+## Pre-commit hook
+
+You can use this tool as a `pre-commit` hook by adding the following to your `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/mheap/json-schema-spell-checker
+    rev: <version> # Use the ref you want to point at
+    hooks:
+      - id: json-schema-spell-checker
+        files: <schema>\.json$
+```
