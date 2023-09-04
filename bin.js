@@ -82,26 +82,27 @@ function loader(filename) {
     spellcheck.spellcheck.addWord(word);
   });
 
-  const i = loader(program.args[0]);
+  for (schemaFilename of program.args) {
+    const i = loader(schemaFilename);
 
-  let jsonPath = "";
-  if (programOpts.jsonPath) {
-    jsonPath = programOpts.jsonPath;
-  } else {
-    jsonPath = programOpts.fields.split(",");
-  }
-
-  const errors = await checker(i, jsonPath, options);
-  if (errors.length == 0) {
-    process.exit(0);
-  }
-
-  for (let error of errors) {
-    for (let single of error.errors) {
-      error.value = error.value.replace(single.word, chalk.red(single.word));
+    let jsonPath = "";
+    if (programOpts.jsonPath) {
+      jsonPath = programOpts.jsonPath;
+    } else {
+      jsonPath = programOpts.fields.split(",");
     }
-    console.log(`${error.path}\n${error.value}\n`);
-  }
 
-  process.exit(1);
+    const errors = await checker(i, jsonPath, options);
+    if (errors.length != 0) {
+      for (let error of errors) {
+        for (let single of error.errors) {
+          error.value = error.value.replace(single.word, chalk.red(single.word));
+        }
+        console.log(`${error.path}\n${error.value}\n`);
+      }
+
+      process.exit(1);
+    }
+  }
+  process.exit(0);
 })();

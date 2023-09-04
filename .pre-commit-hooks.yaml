@@ -1,0 +1,9 @@
+-   id: json-schema-spell-checker
+    name: json-schema-spell-checker
+    description: ''
+    entry: json-schema-spell-checker
+    language: node
+    types:
+      - json
+    args:
+      - --fields=description,title
