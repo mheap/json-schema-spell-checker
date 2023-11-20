@@ -96,7 +96,10 @@ function loader(filename) {
     if (errors.length != 0) {
       for (let error of errors) {
         for (let single of error.errors) {
-          error.value = error.value.replace(single.word, chalk.red(single.word));
+          error.value = error.value.replace(
+            single.word,
+            chalk.red(single.word)
+          );
         }
         console.log(`${error.path}\n${error.value}\n`);
       }
