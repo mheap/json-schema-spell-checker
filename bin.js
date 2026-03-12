@@ -1,16 +1,22 @@
 #!/usr/bin/env node
 
-const checker = require(".");
-const extract = require("./extract");
-const fs = require("fs");
-const YAML = require("yamljs");
-const chalk = require("chalk");
-const program = require("commander");
+import checker from "./index.js";
+import extract from "./extract.js";
+import fs from "fs";
+import YAML from "yamljs";
+import chalk from "chalk";
+import { program } from "commander";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
 const buildVersion = require("./package.json").version;
 
 // We play with mdspell's internals here. It's not ideal, but it works
-const spellConfig = require("markdown-spellcheck/es5/spell-config").default;
-const spellcheck = require("markdown-spellcheck").default;
+import mdSpellConfig from "markdown-spellcheck/es5/spell-config.js";
+import mdSpellcheck from "markdown-spellcheck";
+
+const spellConfig = mdSpellConfig.default;
+const spellcheck = mdSpellcheck.default;
 
 function loader(filename) {
   const suffix = filename.split(".").pop().toLowerCase();
@@ -33,17 +39,17 @@ function loader(filename) {
     .option("--es-es", "Spanish dictionary.")
     .option(
       "-d, --dictionary [file]",
-      "specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff."
+      "specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.",
     )
     .option("-a, --ignore-acronyms", "Ignores acronyms.")
     .option(
       "-s, --spelling [file]",
-      "specify a custom list of spelling exceptions"
+      "specify a custom list of spelling exceptions",
     )
     .option("-j, --json-path [path]", "specify a jsonpath expression to match")
     .option(
       "-f, --fields [fields]",
-      "specify a comma separated list of field names to match"
+      "specify a comma separated list of field names to match",
     )
     .arguments("<source-file>")
     .parse(process.argv);
@@ -82,7 +88,7 @@ function loader(filename) {
     spellcheck.spellcheck.addWord(word);
   });
 
-  for (schemaFilename of program.args) {
+  for (const schemaFilename of program.args) {
     const i = loader(schemaFilename);
 
     let jsonPath = "";
@@ -98,7 +104,7 @@ function loader(filename) {
         for (let single of error.errors) {
           error.value = error.value.replace(
             single.word,
-            chalk.red(single.word)
+            chalk.red(single.word),
           );
         }
         console.log(`${error.path}\n${error.value}\n`);

@@ -1,4 +1,4 @@
-const checker = require(".");
+import checker from "./index.js";
 
 const json = [
   {
