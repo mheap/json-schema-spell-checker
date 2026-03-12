@@ -1,4 +1,4 @@
-var { JSONPath } = require("jsonpath-plus");
+import { JSONPath } from "jsonpath-plus";
 
 /**
  * Extracts all titles and descriptions from a specification
@@ -17,8 +17,8 @@ const extract = (document, fields = []) => {
         path,
         value,
       };
-    }
+    },
   );
 };
 
-module.exports = extract;
+export default extract;

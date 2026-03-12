@@ -1,7 +1,8 @@
-const strip = require("remark-plain-text");
-const remark = require("remark");
+import strip from "remark-plain-text";
+import { remark } from "remark";
+import mdSpellcheck from "markdown-spellcheck";
 
-const spellcheck = require("markdown-spellcheck").default;
+const spellcheck = mdSpellcheck.default;
 const check = async (item, options) => {
   return new Promise((resolve, reject) => {
     remark()
@@ -10,10 +11,11 @@ const check = async (item, options) => {
         if (error) {
           reject(error);
         }
-        const errors = spellcheck.spell(result.contents, options);
-        resolve({ errors, plain: result.contents.trim(), ...item });
+        const plain = result.value || result.toString();
+        const errors = spellcheck.spell(plain, options);
+        resolve({ errors, plain: plain.trim(), ...item });
       });
   });
 };
 
-module.exports = check;
+export default check;
